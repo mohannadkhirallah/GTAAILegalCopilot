@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-maroon-50: #fbf2f4;
+  --color-maroon-100: #f4dde2;
+  --color-maroon-600: #8a1538;
+  --color-maroon-700: #6e102c;
+  --color-maroon-800: #520c21;
+  --font-arabic: "Noto Naskh Arabic", "Simplified Arabic", "Traditional Arabic", "Segoe UI", Tahoma, sans-serif;
+}
+
+html, body {
+  font-family: var(--font-arabic);
+}
