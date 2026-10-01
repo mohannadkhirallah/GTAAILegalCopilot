@@ -1,0 +1,34 @@
+{
+  "dossierId": "",
+  "committeeRecordNumber": "DEMO/2025/0001",
+  "committeeFilingDate": "2025-02-01",
+  "disputedFiscalYear": "2024",
+  "taxpayer": {
+    "nameAr": "شركة المثال التجريبية ذ.م.م",
+    "nameEn": "Example Demo LLC",
+    "tin": "5000000001",
+    "crNumber": "100001",
+    "legalForm": "شركة ذات مسؤولية محدودة",
+    "commercialActivity": "خدمات تقنية"
+  },
+  "dhareebaRecord": {
+    "assessmentNoticeRef": "DEMO/ASSESSMENT/2025/0001",
+    "assessmentNoticeDate": "2025-01-01",
+    "statutoryObjectionDeadline": "2025-01-31",
+    "administrativeObjectionFiled": true,
+    "administrativeObjectionDate": "2025-01-15",
+    "originalAssessedTaxDiffQar": 100000,
+    "originalDelayPenaltiesQar": 12000,
+    "totalOriginalClaimQar": 112000
+  },
+  "disputedItems": [
+    {
+      "itemId": "ITEM-01",
+      "descriptionAr": "أتعاب إدارة تجريبية",
+      "claimedAmountQar": 20000,
+      "taxpayerDefense": "وصف دفاع تجريبي لأغراض الاختبار.",
+      "taxpayerLegalReference": "مرجع تجريبي",
+      "attachmentsPresent": true
+    }
+  ]
+}

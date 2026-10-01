@@ -77,7 +77,7 @@ Open `http://localhost:5080`. This configuration serves both the SPA and API fro
 1. **Check connection and AI status.** The header reports whether Azure narrative refinement is available. The frontend also requests API health at startup.
 2. **Load a demo or provide a dossier.**
    - For a quick walkthrough, select a demo case from the left panel. The available cases cover a procedural issue (`siemens`), substantive disputes (`dohaTech`), and withholding-tax/transfer-pricing issues (`lusail`). Demo taxpayer data is fictitious.
-   - To upload an existing structured dossier, choose a JSON file and select **رفع وتحليل** (upload and analyze).
+   - To upload a structured dossier, choose a JSON file and select **رفع وتحليل** (upload and analyze). [`sample-dossier.json`](sample-dossier.json) is a fictitious example that can be used as a starting point.
    - To extract a dossier from petition text, choose PDF and/or DOCX files and select **رفع وتحليل**. Azure extraction must be enabled. Scanned documents may require text OCR before upload.
    - Upload supports `.pdf`, `.docx`, and `.json`, up to five files at once, with a default per-file size limit of 20 MiB. The API checks file signatures as well as extensions.
 3. **Review the dossier.** Confirm the taxpayer, assessment notice and dates, disputed items, and original amounts. For AI-extracted data, check every field against the source petition and correct issues in the source JSON/re-upload as needed; this UI does not provide an inline dossier editor.
