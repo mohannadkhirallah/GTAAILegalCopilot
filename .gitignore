@@ -1,0 +1,20 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+
+# Local runtime storage (JSON dossiers, uploads, exported memos)
+data/
+
+# Node / Vite
+node_modules/
+frontend/dist/
+*.local
+
+# Secrets
+.env
+
+# Built SPA copied into the API
+backend/src/Gta.LegalCopilot.Api/wwwroot/
