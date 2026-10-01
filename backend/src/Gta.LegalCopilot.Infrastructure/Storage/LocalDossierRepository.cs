@@ -80,7 +80,7 @@ public sealed class LocalDossierRepository(LocalDataPaths paths, IMemoryCache ca
         }
         catch (JsonException ex)
         {
-            logger.LogError(ex, "Corrupted JSON at {Path}", path);
+            logger.LogError(ex, "Corrupted JSON at {Path}", Path.GetFileName(path).Replace("\r", string.Empty).Replace("\n", string.Empty));
             return null;
         }
     }
