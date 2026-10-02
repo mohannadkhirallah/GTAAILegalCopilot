@@ -6,15 +6,15 @@ export function DossierPanel({ dossier }: { dossier: DisputeDossier }) {
   const t = dossier.taxpayer
   const r = dossier.dhareebaRecord
   return (
-    <Card title={`ملف التظلم — ${dossier.committeeRecordNumber || dossier.dossierId}`}>
-      <div className="mb-4">
-        <div className="text-lg font-bold">{t.nameAr}</div>
+    <Card className="dossier-card" title={`ملف التظلم — ${dossier.committeeRecordNumber || dossier.dossierId}`}>
+      <div className="dossier-identity">
+        <div className="taxpayer-name">{t.nameAr}</div>
         {t.nameEn && <div className="text-sm text-slate-500" dir="ltr">{t.nameEn}</div>}
         <div className="mt-1 text-xs text-slate-500">
           {t.legalForm} · {t.commercialActivity} · الرقم الضريبي {t.tin} · السجل التجاري {t.crNumber} · السنة الضريبية {dossier.disputedFiscalYear}
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="stat-grid stat-grid-four">
         <Stat label="قرار الربط" value={<span dir="ltr" className="text-sm">{r.assessmentNoticeRef}</span>} />
         <Stat label="تاريخ الإخطار" value={date(r.assessmentNoticeDate)} />
         <Stat label="الاعتراض الإداري" value={r.administrativeObjectionFiled ? date(r.administrativeObjectionDate) : 'لم يُقدَّم'} tone={r.administrativeObjectionFiled ? 'default' : 'bad'} />
