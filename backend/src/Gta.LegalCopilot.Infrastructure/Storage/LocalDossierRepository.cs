@@ -31,16 +31,19 @@ public sealed class LocalDossierRepository(LocalDataPaths paths, IMemoryCache ca
     public async Task<IReadOnlyList<DossierSummary>> ListAsync(CancellationToken ct = default)
     {
         if (cache.TryGetValue("dossier-list", out IReadOnlyList<DossierSummary>? cached) && cached is not null) return cached;
-        var list = new List<DossierSummary>();
+        var list = new List<StoredDossier>();
         foreach (var file in Directory.EnumerateFiles(paths.Dossiers, "*.json"))
         {
             var id = Path.GetFileNameWithoutExtension(file);
             var stored = await GetAsync(id, ct);
             if (stored is null) continue;
-            var d = stored.Dossier;
-            list.Add(new DossierSummary(d.DossierId, d.CommitteeRecordNumber, d.Taxpayer.NameAr, d.DisputedFiscalYear, d.CommitteeFilingDate, stored.Source));
+            list.Add(stored);
         }
-        IReadOnlyList<DossierSummary> result = list.OrderByDescending(s => s.DossierId, StringComparer.Ordinal).ToList();
+        IReadOnlyList<DossierSummary> result = list.OrderByDescending(s => s.CreatedAtUtc)
+            .ThenByDescending(s => s.Dossier.DossierId, StringComparer.Ordinal)
+            .Select(s => new DossierSummary(s.Dossier.DossierId, s.Dossier.CommitteeRecordNumber,
+                s.Dossier.Taxpayer.NameAr, s.Dossier.DisputedFiscalYear, s.Dossier.CommitteeFilingDate, s.Source))
+            .ToList();
         cache.Set("dossier-list", result, TimeSpan.FromMinutes(1));
         return result;
     }

@@ -11,10 +11,13 @@ data/
 # Node / Vite
 node_modules/
 frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
 *.local
 
 # Secrets
 .env
+appsettings.local.json
 
 # Built SPA copied into the API
 backend/src/Gta.LegalCopilot.Api/wwwroot/

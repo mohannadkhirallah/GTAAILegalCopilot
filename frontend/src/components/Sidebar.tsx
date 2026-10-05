@@ -108,6 +108,7 @@ export function Sidebar({
           {dossiers.map((d) => (
             <li key={d.dossierId}>
               <button
+                disabled={busy}
                 onClick={() => onSelect(d.dossierId)}
                 className={`saved-file ${d.dossierId === activeId ? "saved-file-active" : ""}`}
               >

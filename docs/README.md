@@ -2,6 +2,8 @@
 
 This guide set describes the application from setup through memo export:
 
+- [Legal chat and search](legal-chat.md) — Microsoft Agent Framework, hybrid law retrieval, prompts, citations, and configuration.
+
 - [End-to-end overview](end-to-end-overview.md) — components, workflow, inputs, outputs, and operating limits.
 - [Prerequisites and user guide](user-guide.md) — local setup, optional Azure OpenAI configuration, and the browser workflow.
 - [Data-flow diagram](data-flow.md) — how information moves through the UI, API, deterministic services, optional AI, storage, and Word export.

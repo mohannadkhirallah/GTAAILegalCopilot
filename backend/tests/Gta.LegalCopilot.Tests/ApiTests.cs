@@ -9,6 +9,7 @@ using Gta.LegalCopilot.Application.Common;
 using Gta.LegalCopilot.Domain.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gta.LegalCopilot.Tests;
 
@@ -83,6 +84,23 @@ public class ApiTests(ApiFactory factory) : IClassFixture<ApiFactory>
 
         var analysis = await _client.PostAsync($"/api/dossiers/{created.DossierId}/analysis", null);
         analysis.EnsureSuccessStatusCode();
+    }
+
+    [Fact]
+    public async Task SavedDossiers_ListNewestFirst_AndRefreshAfterSaving()
+    {
+        var repo = factory.Services.GetRequiredService<IDossierRepository>();
+        var demo = factory.Services.GetRequiredService<IDemoCaseCatalog>().Get("dohaTech")!;
+        var older = demo with { DossierId = "DOS-20400101-FFFFFFFF" };
+        var newer = demo with { DossierId = "DOS-20400101-00000000" };
+        var addedAt = new DateTimeOffset(2040, 1, 1, 10, 0, 0, TimeSpan.Zero);
+        await repo.SaveAsync(new StoredDossier(older, "upload:json", addedAt, []));
+        // Prime the cached list before saving another file on the same day.
+        await _client.GetFromJsonAsync<List<DossierSummary>>("/api/dossiers", JsonDefaults.Options);
+        await repo.SaveAsync(new StoredDossier(newer, "upload:json", addedAt.AddSeconds(1), []));
+
+        var list = await _client.GetFromJsonAsync<List<DossierSummary>>("/api/dossiers", JsonDefaults.Options);
+        Assert.Equal([newer.DossierId, older.DossierId], list!.Take(2).Select(d => d.DossierId));
     }
 
     [Fact]

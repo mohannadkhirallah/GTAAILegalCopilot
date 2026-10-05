@@ -74,6 +74,8 @@ Open `http://localhost:5080`. This configuration serves both the SPA and API fro
 
 ## Use the application
 
+After uploading or selecting a dossier, open its assistant from the dossier heading or the side tab. The assistant appears in a side panel with formatted replies and expandable legal references. Closing it preserves the conversation. Ask about facts, amounts, recorded results, or their legal basis, then ask follow-up questions and inspect sources. A new conversation clears history; Stop cancels an answer. Switching dossiers starts a fresh conversation. Chat uses server-loaded case context plus Azure AI Search for legal questions; see [legal chat setup](legal-chat.md).
+
 1. **Check connection and AI status.** The header reports whether Azure narrative refinement is available. The frontend also requests API health at startup.
 2. **Load a demo or provide a dossier.**
    - For a quick walkthrough, select a demo case from the left panel. The available cases cover a procedural issue (`siemens`), substantive disputes (`dohaTech`), and withholding-tax/transfer-pricing issues (`lusail`). Demo taxpayer data is fictitious.

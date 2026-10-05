@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Environment.IsDevelopment())
+    builder.Configuration.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: false)
+        .AddEnvironmentVariables();
+
 builder.Services.AddLegalCopilot(builder.Configuration);
 builder.Services.ConfigureHttpJsonOptions(o => JsonDefaults.Configure(o.SerializerOptions));
 builder.Services.AddProblemDetails();

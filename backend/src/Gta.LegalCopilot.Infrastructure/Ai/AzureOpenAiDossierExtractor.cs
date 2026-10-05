@@ -4,6 +4,7 @@ using Gta.LegalCopilot.Application.Abstractions;
 using Gta.LegalCopilot.Application.Common;
 using Gta.LegalCopilot.Domain.Models;
 using Gta.LegalCopilot.Domain.Services;
+using Gta.LegalCopilot.Infrastructure.Ai.Prompts;
 using OpenAI.Chat;
 
 namespace Gta.LegalCopilot.Infrastructure.Ai;
@@ -15,14 +16,6 @@ namespace Gta.LegalCopilot.Infrastructure.Ai;
 public sealed class AzureOpenAiDossierExtractor(ChatClientFactory factory, StatutoryDeadlineCalculator deadlines) : IDossierExtractor
 {
     public bool IsEnabled => factory.IsConfigured;
-
-    private const string SystemPrompt = """
-        أنت محلل قانوني في الهيئة العامة للضرائب بدولة قطر. استخرج بيانات ملف التظلم الضريبي من النص المقدم بدقة حرفية.
-        - انقل الأرقام والمبالغ والتواريخ كما وردت في المستند فقط، ولا تحتسب أي ميعاد أو مجموع أو غرامة.
-        - التواريخ بصيغة YYYY-MM-DD. المبالغ أرقام بالريال القطري دون فواصل.
-        - إذا لم يرد ما يفيد تقديم اعتراض إداري إلى الهيئة فاجعل administrativeObjectionFiled=false و administrativeObjectionDate=null.
-        - إذا تعذر العثور على قيمة نصية فأعد سلسلة فارغة، وللأرقام غير المذكورة أعد 0.
-        """;
 
     private static readonly BinaryData Schema = BinaryData.FromString("""
     {
@@ -63,7 +56,7 @@ public sealed class AzureOpenAiDossierExtractor(ChatClientFactory factory, Statu
             Temperature = 0,
             ResponseFormat = ChatResponseFormat.CreateJsonSchemaFormat("gta_dispute_dossier", Schema, jsonSchemaIsStrict: true),
         };
-        List<ChatMessage> messages = [new SystemChatMessage(SystemPrompt), new UserChatMessage(documentText)];
+        List<ChatMessage> messages = [new SystemChatMessage(AiPrompts.DossierExtraction), new UserChatMessage(documentText)];
         ChatCompletion completion = await factory.Client.CompleteChatAsync(messages, options, ct);
         var json = completion.Content.FirstOrDefault()?.Text ?? throw new InvalidOperationException("Empty extraction response.");
         var x = JsonSerializer.Deserialize<Extracted>(json, JsonDefaults.Options) ?? throw new InvalidOperationException("Invalid extraction JSON.");

@@ -1,11 +1,13 @@
 using Gta.LegalCopilot.Application.Abstractions;
 using Gta.LegalCopilot.Application.Services;
+using Gta.LegalCopilot.Application.Chat;
 using Gta.LegalCopilot.Domain.Services;
 using Gta.LegalCopilot.Domain.Statutes;
 using Gta.LegalCopilot.Infrastructure.Ai;
 using Gta.LegalCopilot.Infrastructure.Demo;
 using Gta.LegalCopilot.Infrastructure.Documents;
 using Gta.LegalCopilot.Infrastructure.Storage;
+using Gta.LegalCopilot.Infrastructure.Search;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +19,7 @@ public static class DependencyInjection
     {
         services.Configure<StorageOptions>(configuration.GetSection(StorageOptions.Section));
         services.Configure<AzureOpenAIOptions>(configuration.GetSection(AzureOpenAIOptions.Section));
+        services.Configure<AzureAISearchOptions>(configuration.GetSection(AzureAISearchOptions.Section));
         services.AddMemoryCache();
 
         // Deterministic domain core
@@ -43,6 +46,10 @@ public static class DependencyInjection
         services.AddSingleton<IMemoDocumentRenderer, WordMemoRenderer>();
         services.AddSingleton<IDemoCaseCatalog, DemoCaseCatalog>();
         services.AddSingleton<ChatClientFactory>();
+        services.AddSingleton<IAgentChatClientProvider>(sp => sp.GetRequiredService<ChatClientFactory>());
+        services.AddSingleton<ILegalKnowledgeSearch, AzureLegalKnowledgeSearch>();
+        services.AddScoped<ILegalChatAgent, LegalChatAgent>();
+        services.AddScoped<LegalChatService>();
         services.AddSingleton<AzureOpenAiNarrativeGenerator>();
         services.AddSingleton<AzureOpenAiDossierExtractor>();
         services.AddSingleton<ILegalNarrativeGenerator>(sp => sp.GetRequiredService<ChatClientFactory>().IsConfigured

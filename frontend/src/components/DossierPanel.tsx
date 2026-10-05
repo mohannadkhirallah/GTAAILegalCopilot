@@ -1,12 +1,16 @@
 import type { DisputeDossier } from '../types'
 import { date, qar } from '../format'
 import { Card, Stat } from './Card'
+import { UiIcon } from './UiIcon'
 
-export function DossierPanel({ dossier }: { dossier: DisputeDossier }) {
+export function DossierPanel({ dossier, onOpenChat }: { dossier: DisputeDossier; onOpenChat: () => void }) {
   const t = dossier.taxpayer
   const r = dossier.dhareebaRecord
   return (
-    <Card className="dossier-card" title={`ملف التظلم — ${dossier.committeeRecordNumber || dossier.dossierId}`}>
+    <Card className="dossier-card" title={`ملف التظلم — ${dossier.committeeRecordNumber || dossier.dossierId}`}
+      actions={<button className="dossier-assistant-button" onClick={onOpenChat} aria-controls="workspace-chat">
+        <UiIcon name="sparkles" /> اسأل عن هذا الملف
+      </button>}>
       <div className="dossier-identity">
         <div className="taxpayer-name">{t.nameAr}</div>
         {t.nameEn && <div className="text-sm text-slate-500" dir="ltr">{t.nameEn}</div>}

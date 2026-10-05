@@ -5,7 +5,8 @@ namespace Gta.LegalCopilot.Application.Abstractions;
 
 public record DossierSummary(string DossierId, string CommitteeRecordNumber, string TaxpayerNameAr, string DisputedFiscalYear, DateOnly CommitteeFilingDate, string Source);
 
-public record StoredDossier(DisputeDossier Dossier, string Source, DateTimeOffset CreatedAtUtc, IReadOnlyList<string> SourceFiles);
+public record StoredDossier(DisputeDossier Dossier, string Source, DateTimeOffset CreatedAtUtc,
+    IReadOnlyList<string> SourceFiles, string? ExtractedDocumentText = null);
 
 public interface IDossierRepository
 {

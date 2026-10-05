@@ -8,6 +8,8 @@ Governing law: Income Tax Law No. (24) of 2018, Executive Regulations (Decision 
 
 ## Architecture
 
+The dossier chat uses extracted case facts, current analysis, and saved memo context. Its Microsoft Agent Framework agent searches the Qatar-law Azure AI Search index for legal questions, using hybrid keyword/vector retrieval (`Content` / 3072-dimension `ContentVector`). It streams answers, supports follow-ups within the selected file, and displays legal sources. See [chat setup and architecture](docs/legal-chat.md).
+
 ```
 backend/                         .NET 9 / C# 13 — Clean Architecture
   src/Gta.LegalCopilot.Domain          Models + deterministic engines (no I/O, no AI)
@@ -67,6 +69,8 @@ Everything lives under `Storage:RootPath` (default `./data`, relative to the API
 `dossiers/*.json`, `memos/*.json`, `uploads/{dossierId}/…`, `exports/{dossierId}/*.docx`. No database is required.
 
 ## API
+
+`POST /api/dossiers/{id}/chat` answers a question about a stored dossier; `POST /api/dossiers/{id}/chat/stream` streams it with optional recent history and final legal source references. `/api/health` also reports `legalSearchEnabled` and `legalChatEnabled`.
 
 | Method | Route | Purpose |
 |---|---|---|

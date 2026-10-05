@@ -8,6 +8,8 @@ The repository is organized as a React/TypeScript frontend and a .NET 9 minimal 
 
 ## Components and responsibilities
 
+Dossier chat runs a Microsoft Agent Framework agent with the selected case facts, current deterministic analysis, saved memo, and available extracted document text. It searches the existing Qatar-law index for legal explanations and returns cited sources without changing the deterministic results. See [legal chat](legal-chat.md).
+
 | Component | Responsibility |
 | --- | --- |
 | `frontend/` | Arabic right-to-left user interface; selects demos, uploads dossiers, requests analysis, consumes memo events, and links to the DOCX export. |

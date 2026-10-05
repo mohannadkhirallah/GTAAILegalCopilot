@@ -134,6 +134,6 @@ export interface DossierSummary {
   source: string
 }
 
-export interface Health { status: string; aiExtractionEnabled: boolean; aiNarrativeEnabled: boolean }
+export interface Health { status: string; aiExtractionEnabled: boolean; aiNarrativeEnabled: boolean; legalSearchEnabled: boolean; legalChatEnabled: boolean }
 
 export interface MemoSectionState { key: string; title: string; text: string; done: boolean }
